@@ -1,0 +1,25 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <span> Dashboard Monitor Planta Neptuno </span>
+
+        <!-- <div fxFlex fxLayout="row" fxLayoutAlign="end"> -->
+        <div style="margin-top: 20px;">
+            <ul fxLayout="row" fxLayoutGap="10px">
+                <mat-form-field style="margin-right: 10px; width: 18em; height: 75px"> 
+                    <mat-label>MM/DD/YYYY - MM/DD/YYYY</mat-label>
+                    <mat-date-range-input [rangePicker]="picker" #datepickerRef>
+                        <input matStartDate placeholder="Start date" #startDateInput>
+                        <input matEndDate placeholder="End Date" #endDateInput>
+                    </mat-date-range-input>
+                    <!-- <mat-hint>MM/DD/YYYY - MM/DD/YYYY</mat-hint> -->
+                    <mat-datepicker-toggle style="font-size: 10px" matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+
+                <button style="margin-top: 10px; background-color: #1976D2" mat-raised-button color="primary" (click)="onDareRangeSelectedButton(startDateInput.value, endDateInput.value)">Ingresar</button>
+
+                <button style="margin-top: 10px; background-color: #1976D2" mat-raised-button color="primary" (click)="onUpdateRangeClick()">Real Time</button>
+            </ul>
+        </div>
+    </mat-toolbar-row>
+</mat-toolbar>

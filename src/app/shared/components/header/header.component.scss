@@ -1,0 +1,19 @@
+.toolbar-item-spacer {
+    flex: 1 1 auto;
+}
+.mat-form-field {
+    font-size: 12px;
+    width: 200px;
+}
+.mat-hint, .mat-datepicker-toggle {
+    font-size: 10px;
+}
+.mat.raised-button {
+    margin: 0 auto;
+    background-color: #1976D2;
+    color: white;
+}
+
+.mat-raised-button:hover {
+    background-color: #1565c0;
+}
