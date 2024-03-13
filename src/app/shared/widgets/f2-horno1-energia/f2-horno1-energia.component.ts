@@ -89,7 +89,7 @@ export class F2Horno1EnergiaComponent implements OnInit, OnDestroy {
     this.startDate = DoceHorasAtras;
     this.endDate = now;
     this.loadData();
-    console.log('Real Time Selected');
+    // console.log('Real Time Selected');
   };
 
   calculateTickInterval(startDate: Date, endDate: Date): number {

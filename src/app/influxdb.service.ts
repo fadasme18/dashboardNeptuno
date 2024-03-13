@@ -346,6 +346,107 @@ export class InfluxdbService {
   }
   //----------------------------------------------------------FIN QUERY HORNO INDUCCION 1 CORRIENTE------------------------------------------------
   //----------------------------------------------------------------------------------------------------------------------------------------------------------
+  
+  //----------------------------------------------------------QUERY PARA DESCARGAR EXCEL----------------------------------------------------------------------
+
+  //-------------------------------------------------------------TRATAMIENTOS TERMICOS------------------------------------------------
+  async F2_TT_horno2EXCEL(startDate: Date, endDate: Date): Promise<any[]> {
+
+    const rangeDuration = this.calculateRangeDuration_TT(startDate, endDate);
+    const fluxQuery = `
+    from(bucket: "${this.bucket}")
+    |> range(start: ${startDate.toISOString()}, stop: ${endDate.toISOString()})
+    |> filter(fn: (r) => r["_measurement"] == "F2-TT-[ADAM-6018]")
+    |> aggregateWindow(every: ${rangeDuration}, fn: mean, createEmpty: ${this.createEmpty})
+    |> yield(name: "mean")
+    `;
+    try {
+      const queryApi = this.client.getQueryApi(this.orgID);
+
+      const result = await queryApi.collectRows(fluxQuery);
+      return result;
+    } catch (error) {
+      console.error('Error al consultar Influxdb: ', error);
+      return [];
+    }
+  }
+  //----------------------------------------------------------FIN QUERY TRATAMIENTOS TERMICOS------------------------------------------------
+
+  //-------------------------------------------------------------QUERY HORNO INDUCCION 1------------------------------------------------
+  async F2_horno1EXCEL(startDate: Date, endDate: Date): Promise<any[]> {
+
+    const rangeDuration = this.calculateRangeDuration_Horno_induccion(startDate, endDate);
+    const fluxQuery = `
+  from(bucket: "${this.bucket}")
+  |> range(start: ${startDate.toISOString()}, stop: ${endDate.toISOString()})
+  |> filter(fn: (r) => r["_measurement"] == "F2-Horno1-[COUNTIS-E53]")
+  |> aggregateWindow(every: ${rangeDuration}, fn: mean, createEmpty: ${this.createEmpty})
+  |> yield(name: "mean")
+  `;
+    try {
+      const queryApi = this.client.getQueryApi(this.orgID);
+
+      const result = await queryApi.collectRows(fluxQuery);
+      return result;
+    } catch (error) {
+      console.error('Error al consultar Influxdb: ', error);
+      return [];
+    }
+  }
+  //----------------------------------------------------------FIN QUERY HORNO INDUCCION 1------------------------------------------------
+ 
+  //-------------------------------------------------------------QUERY HORNO INDUCCION 2------------------------------------------------
+  async F2_horno2EXCEL(startDate: Date, endDate: Date): Promise<any[]> {
+
+    const rangeDuration = this.calculateRangeDuration_Horno_induccion(startDate, endDate);
+    const fluxQuery = `
+  from(bucket: "${this.bucket}")
+  |> range(start: ${startDate.toISOString()}, stop: ${endDate.toISOString()})
+  |> filter(fn: (r) => r["_measurement"] == "F2-Horno2-[DPM-C530]")
+  |> aggregateWindow(every: ${rangeDuration}, fn: mean, createEmpty: ${this.createEmpty})
+  |> yield(name: "mean")
+  `;
+    try {
+      const queryApi = this.client.getQueryApi(this.orgID);
+
+      const result = await queryApi.collectRows(fluxQuery);
+      return result;
+    } catch (error) {
+      console.error('Error al consultar Influxdb: ', error);
+      return [];
+    }
+  }
+  //----------------------------------------------------------FIN QUERY HORNO INDUCCION 2------------------------------------------------
+
+  //-------------------------------------------------------------QUERY SILOS------------------------------------------------
+  async F2_silosEXCEL(startDate: Date, endDate: Date): Promise<any[]> {
+
+    const rangeDuration = this.calculateRangeDuration_silos(startDate, endDate);
+    const fluxQuery = `
+  from(bucket: "${this.bucket}")
+  |> range(start: ${startDate.toISOString()}, stop: ${endDate.toISOString()})
+  |> filter(fn: (r) => r["_measurement"] == "F2-silo-NyS-[ADAM6017]" or r["_measurement"] == "F2-silo-cohete-[ADAM6017]")
+  |> aggregateWindow(every: ${rangeDuration}, fn: mean, createEmpty: ${this.createEmpty})
+  |> yield(name: "mean")
+  `;
+    try {
+      const queryApi = this.client.getQueryApi(this.orgID);
+
+      const result = await queryApi.collectRows(fluxQuery);
+      return result;
+    } catch (error) {
+      console.error('Error al consultar Influxdb: ', error);
+      return [];
+    }
+  }
+  //----------------------------------------------------------FIN QUERY SILOS------------------------------------------------
+
+  
+  
+  
+  
+  
+  
   //----------------------------------------------------------------------------------------------------------------------------------------------------------
   //----------------------------------------------------------INICIO DE FUNCIONES------------------------------------------------------------------
   calculateRangeDuration_TT(startDate: Date, endDate: Date): string {
@@ -442,7 +543,7 @@ export class InfluxdbService {
 
   emitUpdateRange(): void {
     this.updateRangeSubject.next();
-    console.log('EMIT UPDATE RANGE')
+    // console.log('EMIT UPDATE RANGE')
   }
   //----------------------------------------------------------FIN DE FUNCIONES------------------------------------------------------------------
 
