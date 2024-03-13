@@ -405,11 +405,11 @@ export class InfluxdbService {
   calculateRangeDuration_Horno_induccion(startDate: Date, endDate: Date): string {
     const diffInDays = moment(endDate).diff(startDate, 'days');
     if (diffInDays <= 1) {
-      return '2m'; // Rango de 12 horas o menos
+      return '1m'; // Rango de 12 horas o menos
     } else if (diffInDays === 1) {
-      return '2m'; // Rango de 1 día
+      return '1m'; // Rango de 1 día
     } else if (diffInDays >= 2 && diffInDays <= 3) {
-      return '10m'; // Rango de 2-3 días
+      return '5m'; // Rango de 2-3 días
     } else if (diffInDays >= 4 && diffInDays <= 7) {
       return '30m'; // Rango de 4-7 días
     } else if (diffInDays >= 8 && diffInDays <= 30) {
@@ -425,7 +425,7 @@ export class InfluxdbService {
     } else if (diffInDays >= 151 && diffInDays <= 360) {
           return '12h'; // Rango de 151-360 días
     } else {
-      return '2m'; // Por defecto, rango de 12 horas
+      return '1m'; // Por defecto, rango de 12 horas
     }
   }
 

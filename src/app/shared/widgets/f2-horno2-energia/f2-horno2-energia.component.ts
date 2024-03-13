@@ -81,7 +81,7 @@ export class F2Horno2EnergiaComponent implements OnInit, OnDestroy {
 
   updateRange(): void {
     const now = new Date();
-    const DoceHorasAtras = moment(now).subtract(15, 'hours').toDate();
+    const DoceHorasAtras = moment(now).subtract(13, 'hours').toDate();
     this.startDate = DoceHorasAtras;
     this.endDate = now;
     this.loadData();
