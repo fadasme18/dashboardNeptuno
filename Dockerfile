@@ -13,7 +13,7 @@ RUN npm install -g @angular/cli
 
 # Compila la aplicación Angular
 
-RUN ng build
+RUN ng build 
 
 EXPOSE 4200
 
