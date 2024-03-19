@@ -10,11 +10,11 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 
-export class InfluxdbService {
+export class InfluxdbService { 
 
   private url = 'http://192.168.1.154:8086';
-  private token = 'qM-zFpT66Q94gpLfB9J6gnHHFIxnkafkCHsO-l4jGujqHH6XQbAdvxUmr63veMh6HoiBpfyBIUBnNOtdX_Z2MQ==';
-  private orgID = '3779feade251cf1f';
+  private token = 'cQ7VufndLNrs8SLTkf6prhvAYGXTBiXX1NlRMDaMN22DlhfOAOucsay0F6SjTCUVdS0OVERhuj1gpDjGFqj8lw==';
+  private orgID = 'b694a63c694bb3e6';
   private bucket = 'DATA';
 
   private createEmpty = 'true';  //Espacios en blanco en el grafico verdadero o falso
