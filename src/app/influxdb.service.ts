@@ -12,7 +12,7 @@ import { Subject } from 'rxjs';
 
 export class InfluxdbService {
 
-  private url = 'http://127.0.0.1:8086';
+  private url = 'http://192.168.1.154:8086';
   private token = 'qM-zFpT66Q94gpLfB9J6gnHHFIxnkafkCHsO-l4jGujqHH6XQbAdvxUmr63veMh6HoiBpfyBIUBnNOtdX_Z2MQ==';
   private orgID = '3779feade251cf1f';
   private bucket = 'DATA';
@@ -548,34 +548,34 @@ export class InfluxdbService {
   //----------------------------------------------------------FIN DE FUNCIONES------------------------------------------------------------------
 
   getData_F2_horno1_energia(): Observable<any[]> {
-    return this.http.get<any[]>('http://192.168.1.215:1880/fundicion2/horno1/energia');
+    return this.http.get<any[]>('http://192.168.1.154:1880/fundicion2/horno1/energia');
   }
 
   getData_F2_horno2_energia(): Observable<any[]> {
-    return this.http.get<any[]>('http://192.168.1.215:1880/fundicion2/horno2/energia');
+    return this.http.get<any[]>('http://192.168.1.154:1880/fundicion2/horno2/energia');
   }
 
   getData_F2_silo_cohete(): Observable<any[]> {
-    return this.http.get<any[]>('http://192.168.1.215:1880/fundicion2/silo/cohete');
+    return this.http.get<any[]>('http://192.168.1.154:1880/fundicion2/silo/cohete');
   }
 
   getData_F2_silo_norte(): Observable<any[]> {
-    return this.http.get<any[]>('http://192.168.1.215:1880/fundicion2/silo/norte');
+    return this.http.get<any[]>('http://192.168.1.154:1880/fundicion2/silo/norte');
   }
 
   getData_F2_silo_sur(): Observable<any[]> {
-    return this.http.get<any[]>('http://192.168.1.215:1880/fundicion2/silo/sur');
+    return this.http.get<any[]>('http://192.168.1.154:1880/fundicion2/silo/sur');
   }
 
   getData_F2_horno2(): Observable<any[]> {
-    return this.http.get<any[]>('http://192.168.1.215:1880/fundicion2/horno2/potencia');
+    return this.http.get<any[]>('http://192.168.1.154:1880/fundicion2/horno2/potencia');
   }
 
   getData_F2_TT_horno1(): Observable<any[]> {
-    return this.http.get<any[]>('http://192.168.1.215:1880/fundicion2/TT/horno1');
+    return this.http.get<any[]>('http://192.168.1.154:1880/fundicion2/TT/horno1');
   }
 
   getData_F2_TT_horno2(): Observable<any[]> {
-    return this.http.get<any[]>('http://192.168.1.215:1880/fundicion2/TT/horno2');
+    return this.http.get<any[]>('http://192.168.1.154:1880/fundicion2/TT/horno2');
   }
 }
