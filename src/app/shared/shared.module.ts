@@ -44,8 +44,21 @@ import { F2TtHorno2CsComponent } from './connection_status/f2-tt-horno2-cs/f2-tt
 import { DescargaComponent } from './components/descarga/descarga.component';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatDateFormats, MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
+
+import { DateFnsAdapter, DateFnsModule } from '@angular/material-date-fns-adapter';
+import { es } from 'date-fns/locale';
+
+// export const DATE_FORMATS: MatDateFormats = {
+//   parse: { dateInput: 'dd-MM-yyyy' },
+//   display: {
+//     dateInput: 'dd-MM-yyyy',
+//     monthYearLabel: 'MMM yyyy',
+//     dateA11yLabel: 'LL',
+//     monthYearA11yLabel: 'yyyy'
+//   }
+// }
 
 @NgModule({
   declarations: [
@@ -131,6 +144,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   ],
   providers: [
     InfluxdbService,
+    // { provide: DateAdapter, useClass: DateFnsAdapter },
+    // { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
+    // { provide: MAT_DATE_LOCALE, useValue: es}
   ]
 })
 export class SharedModule { }

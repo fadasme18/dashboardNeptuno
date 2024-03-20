@@ -1,0 +1,45 @@
+version: "2.2"
+
+services:
+  node-red:
+    image: nodered/node-red:latest
+    container_name: nodered
+    restart: always
+    environment:
+      - TZ=America/Santiago
+    ports:
+      - "1880:1880"
+      - "5168:5168/udp"
+      - "18899:18899/udp"
+    volumes:
+      - ./nodered-storage:/data
+
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    restart: always
+    environment:
+      - INFLUXDB_DB=db0
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin
+    volumes:
+      - ./influxdb-config:/etc/influxdb
+      - ./influxdb-storage:/var/lib/influxdb
+    ports:
+      - "8086:8086"
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: always
+    depends_on:
+      - influxdb
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana_data:/var/lib/grafana
+volumes:
+  grafana_data: {}
