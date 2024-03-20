@@ -1,20 +1,13 @@
-FROM node:18
-
+FROM node:18.19.1 as angular
 WORKDIR /app
-
-COPY package*.json ./
-
-RUN npm install
-
 COPY . .
+RUN npm install --force
 
-# Instala Angular CLI
-RUN npm install -g @angular/cli
+# Establecer NODE_OPTIONS para asignar más memoria al heap de Node.js
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 
-# Compila la aplicación Angular
+RUN npm run build
 
-RUN ng build 
-
-EXPOSE 4200
-
-CMD ["npm", "start"]
+FROM httpd:alpine3.15
+WORKDIR /usr/local/apache2/htdocs
+COPY --from=angular /app/dist/dashboardNeptuno .
