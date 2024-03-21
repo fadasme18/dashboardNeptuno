@@ -1,0 +1,37 @@
+.online {
+    color: green;
+    background-color: lightgreen;
+    margin-bottom: 10px;
+}
+
+.offline {
+    color: red;
+    background-color: pink;
+    margin-bottom: 10px;
+}
+.status-button {
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    width: 60px;
+}
+
+mat-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.equipo1 {
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 10px;
+}
+
+.statusCard {
+    text-align: center;
+}

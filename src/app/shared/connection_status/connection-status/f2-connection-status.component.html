@@ -1,0 +1,53 @@
+<br />
+<div
+  fxLayout="row"
+  fxLayoutAlign="start center"
+  fxLayoutGap="10px"
+  class="stats-cards"
+>
+  <mat-card>
+    <p class="equipo1">Estado Equipo 1</p>
+    <button [ngClass]="getIndicatorClass(horno1)" class="status-button">
+      {{ horno1 ? "Online" : "Offline" }}
+    </button>
+  </mat-card>
+  <mat-card>
+    <p class="equipo1">Estado Equipo 2</p>
+    <button [ngClass]="getIndicatorClass(horno2)" class="status-button">
+      {{ horno2 ? "Online" : "Offline" }}
+    </button>
+  </mat-card>
+  <mat-card>
+    <p class="equipo1">Estado silo cohete</p>
+    <button [ngClass]="getIndicatorClass(silo_cohete)" class="status-button">
+      {{ silo_cohete ? "Online" : "Offline" }}
+    </button>
+  </mat-card>
+  <mat-card>
+    <p class="equipo1">Estado silo norte</p>
+    <button [ngClass]="getIndicatorClass(silo_norte)" class="status-button">
+      {{ silo_norte ? "Online" : "Offline" }}
+    </button>
+  </mat-card>
+  <mat-card>
+    <p class="equipo1">Estado silo sur</p>
+    <button [ngClass]="getIndicatorClass(silo_sur)" class="status-button">
+      {{ silo_sur ? "Online" : "Offline" }}
+    </button>
+  </mat-card>
+  <mat-card>
+    <p class="equipo1">Estado T.Termicos Horno 1</p>
+    <button [ngClass]="getIndicatorClass(hornosTT)" class="status-button">
+      {{ hornosTT ? "Online" : "Offline" }}
+    </button>
+  </mat-card>
+  <mat-card>
+    <p class="equipo1">Estado T.Termicos Horno 2</p>
+    <button [ngClass]="getIndicatorClass(hornosTT)" class="status-button">
+      {{ hornosTT ? "Online" : "Offline" }}
+    </button>
+  </mat-card>
+</div>
+<br />
+
+<mat-divider></mat-divider>
