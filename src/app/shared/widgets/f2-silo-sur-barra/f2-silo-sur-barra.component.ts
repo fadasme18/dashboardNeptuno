@@ -9,30 +9,19 @@ var ultimovalor: any[] = [];
 @Component({
   selector: 'app-f2-silo-sur-barra',
   templateUrl: './f2-silo-sur-barra.component.html',
-  styleUrls: ['./f2-silo-sur-barra.component.scss']
+  styleUrls: ['./f2-silo-sur-barra.component.scss'],
 })
 export class F2SiloSurBarraComponent implements OnInit, OnDestroy {
   data: any;
-  Highcharts: typeof Highcharts = Highcharts;
-  chartOptions: Highcharts.Options = {};
 
-  s_surData: any[] = []; // Arreglo para almacenar datos de corriente
-  ultimovalor: any[] = []; // Arreglo para almacenar datos de corriente
-
-
-  private dataSubscription: Subscription | undefined; // Inicializamos dataSubscription como undefined
-
-
-  constructor(private influxdbService: InfluxdbService) { }
+  constructor(private InfluxdbService: InfluxdbService) {}
 
   ngOnInit() {
-
     this.loadData();
     this.graficar();
 
     this.dataSubscription = interval(30000).subscribe(() => {
       this.loadData();
-      this.graficar();
     });
   }
 
@@ -43,47 +32,50 @@ export class F2SiloSurBarraComponent implements OnInit, OnDestroy {
     }
   }
 
-  loadData() {
-    this.influxdbService.getData_F2_silo_sur().subscribe((data: any[]) => {
+  //---------------------------------------------------------------------------------------------------------------------
 
-      this.s_surData = [];
+  Highcharts: typeof Highcharts = Highcharts;
+  chartOptions: Highcharts.Options = {};
+  s_surData: any[] = []; // Arreglo para almacenar datos de corriente
+  ultimovalor: any[] = []; // Arreglo para almacenar datos de corriente
+  private dataSubscription: Subscription | undefined; // Inicializamos dataSubscription como undefined
 
-      data.forEach(item => {
-        if (item._field === 'silo_sur') {
-          this.s_surData.push({
-            x: new Date(item._time).getTime(), // Convierte la fecha en una marca de tiempo
-            y: Number(parseFloat(item._value).toFixed(1)) // Convierte el valor en número
-          });
-        }
-      });
+  async loadData() {
+    //---------------------------------------------------------------------------------------------------------------------
+    this.data = await this.InfluxdbService.F2_silo_sur_barra();
+    // console.log('ACA ESTA MSJ!!');
+    // console.log(this.data);
+    //---------------------------------------------------------------------------------------------------------------------
+    this.s_surData = [];
 
-      /*this.data = data.map(item => ({
-        x: new Date(item._time).getTime(), // Convierte la fecha en una marca de tiempo
-        y: parseFloat(item._value) // Convierte el valor en número
-
-      }));
-      nombre = this.data;*/
-      s_sur = this.s_surData;
-      ultimovalor = s_sur[s_sur.length - 1];
-      // console.log("silo_sur")
-      // console.log(ultimovalor);
-
-      this.graficar();
-      // console.log("fflag")
+    this.data.forEach((item: any) => {
+      if (item._field === 'silo_sur') {
+        this.s_surData.push({
+          x: new Date(item._time).getTime(), // Convierte la fecha en una marca de tiempo
+          y: Number(item._value.toFixed(1)), // Convierte el valor en número
+        });
+      }
     });
+    s_sur = this.s_surData;
+    ultimovalor = s_sur[s_sur.length - 1];
+    // console.log('silo_sur');
+    // console.log(ultimovalor);
+
+    this.graficar();
   }
+
   private chart: Highcharts.Chart | undefined;
   graficar() {
     const self = this;
     this.chartOptions = {
       title: {
         text: 'Silo sur Fundición 2',
-        align: 'center'
+        align: 'center',
       },
 
       subtitle: {
         text: 'Unidad de medida: Porcentaje de llenado (%)',
-        align: 'center'
+        align: 'center',
       },
 
       yAxis: {
@@ -92,25 +84,27 @@ export class F2SiloSurBarraComponent implements OnInit, OnDestroy {
         },
         allowDecimals: false,
         max: 100,
-        min: 0
+        min: 0,
       },
       xAxis: {
         labels: {
-          enabled: false
+          enabled: false,
         },
-        categories: ['Silo sur']
+        categories: ['Silo sur'],
       },
       legend: {
         enabled: true,
         layout: 'horizontal',
         align: 'center',
-        verticalAlign: 'bottom'
+        verticalAlign: 'bottom',
       },
-      series: [{
-        name: 'Silo sur',
-        type: 'column',
-        data: [ultimovalor]
-      }],
+      series: [
+        {
+          name: 'Silo sur',
+          type: 'column',
+          data: [ultimovalor],
+        },
+      ],
       tooltip: {
         enabled: true,
         headerFormat: '<b>Porcentaje: </b> {point.y} (%) <br/>',
@@ -123,60 +117,26 @@ export class F2SiloSurBarraComponent implements OnInit, OnDestroy {
             day: 'numeric',
             hour: 'numeric',
             minute: 'numeric',
-            second: 'numeric'
+            second: 'numeric',
           };
           return date.toLocaleString('es-CL', options);
-        }
-      },
-      exporting: {
-        enabled: false,
-        buttons: {
-          customButton: {
-            text: 'Descargar CSV',
-            onclick: function () {
-              function formatDate(milliseconds: number) {
-                const timestamp = new Date(milliseconds);
-                const date = new Date(timestamp);
-                const options: Intl.DateTimeFormatOptions = {
-                  year: 'numeric',
-                  month: 'numeric',
-                  day: 'numeric',
-                  hour: 'numeric',
-                  minute: 'numeric',
-                  second: 'numeric'
-                };
-                return date.toLocaleString('es-CL', options);
-              }
-
-              let csvData = 'Fecha,Valor\n';
-              self.chart?.series[0].data.forEach(point => {
-                const fechaLegible = formatDate(point.x);
-                csvData += `${fechaLegible},${point.y}\n`;
-              });
-
-              const blob = new Blob([csvData], { type: 'text/csv' });
-
-              const link = document.createElement('a');
-              link.href = URL.createObjectURL(blob);
-              link.download = 'datos.csv';
-              link.click();
-            }
-          }
-        }
+        },
       },
       chart: {
         type: 'column',
         borderColor: 'gray',
         borderWidth: 0.5,
-        borderRadius: 5
+        borderRadius: 5,
       },
       responsive: {
-        rules: [{
-          condition: {
-            maxWidth: 500
+        rules: [
+          {
+            condition: {
+              maxWidth: 500,
+            },
           },
-        }],
-      }
-    }
+        ],
+      },
+    };
   }
 }

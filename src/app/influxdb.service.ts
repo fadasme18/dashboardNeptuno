@@ -484,6 +484,69 @@ export class InfluxdbService {
   }
   //----------------------------------------------------------FIN QUERY SILOS------------------------------------------------
 
+  //-------------------------------------------------------------QUERY SILO COHETE BARRA------------------------------------------------
+  async F2_silo_cohete_barra(): Promise<any[]> {
+    const fluxQuery = `
+  from(bucket: "${this.bucket}")
+  |> range(start: -2m)
+  |> filter(fn: (r) => r["_measurement"] == "F2-silo-cohete-[ADAM6017]")
+  |> filter(fn: (r) => r["_field"] == "silo_cohete")
+  |> last()
+  `;
+    try {
+      const queryApi = this.client.getQueryApi(this.orgID);
+
+      const result = await queryApi.collectRows(fluxQuery);
+      return result;
+    } catch (error) {
+      console.error('Error al consultar Influxdb: ', error);
+      return [];
+    }
+  }
+  //----------------------------------------------------------FIN QUERY SILO COHETE BARRA------------------------------------------------
+
+  //-------------------------------------------------------------QUERY SILO SUR BARRA------------------------------------------------
+  async F2_silo_sur_barra(): Promise<any[]> {
+    const fluxQuery = `
+  from(bucket: "${this.bucket}")
+  |> range(start: -2m)
+  |> filter(fn: (r) => r["_measurement"] == "F2-silo-NyS-[ADAM6017]")
+  |> filter(fn: (r) => r["_field"] == "silo_sur")
+  |> last()
+  `;
+    try {
+      const queryApi = this.client.getQueryApi(this.orgID);
+
+      const result = await queryApi.collectRows(fluxQuery);
+      return result;
+    } catch (error) {
+      console.error('Error al consultar Influxdb: ', error);
+      return [];
+    }
+  }
+  //----------------------------------------------------------FIN QUERY SILO SUR BARRA------------------------------------------------
+
+  //-------------------------------------------------------------QUERY SILO NORTE BARRA------------------------------------------------
+  async F2_silo_norte_barra(): Promise<any[]> {
+    const fluxQuery = `
+  from(bucket: "${this.bucket}")
+  |> range(start: -2m)
+  |> filter(fn: (r) => r["_measurement"] == "F2-silo-NyS-[ADAM6017]")
+  |> filter(fn: (r) => r["_field"] == "silo_norte")
+  |> last()
+  `;
+    try {
+      const queryApi = this.client.getQueryApi(this.orgID);
+
+      const result = await queryApi.collectRows(fluxQuery);
+      return result;
+    } catch (error) {
+      console.error('Error al consultar Influxdb: ', error);
+      return [];
+    }
+  }
+  //----------------------------------------------------------FIN QUERY SILO NORTE BARRA------------------------------------------------
+
   //----------------------------------------------------------------------------------------------------------------------------------------------------------
   //----------------------------------------------------------INICIO DE FUNCIONES------------------------------------------------------------------
   calculateRangeDuration_TT(startDate: Date, endDate: Date): string {
@@ -610,53 +673,5 @@ export class InfluxdbService {
 
   public close(): void {
     this.socket$.complete();
-  }
-
-  getData_F2_horno1_energia(): Observable<any[]> {
-    return this.http.get<any[]>(
-      'http://192.168.1.154:1880/fundicion2/horno1/energia'
-    );
-  }
-
-  getData_F2_horno2_energia(): Observable<any[]> {
-    return this.http.get<any[]>(
-      'http://192.168.1.154:1880/fundicion2/horno2/energia'
-    );
-  }
-
-  getData_F2_silo_cohete(): Observable<any[]> {
-    return this.http.get<any[]>(
-      'http://192.168.1.154:1880/fundicion2/silo/cohete'
-    );
-  }
-
-  getData_F2_silo_norte(): Observable<any[]> {
-    return this.http.get<any[]>(
-      'http://192.168.1.154:1880/fundicion2/silo/norte'
-    );
-  }
-
-  getData_F2_silo_sur(): Observable<any[]> {
-    return this.http.get<any[]>(
-      'http://192.168.1.154:1880/fundicion2/silo/sur'
-    );
-  }
-
-  getData_F2_horno2(): Observable<any[]> {
-    return this.http.get<any[]>(
-      'http://192.168.1.154:1880/fundicion2/horno2/potencia'
-    );
-  }
-
-  getData_F2_TT_horno1(): Observable<any[]> {
-    return this.http.get<any[]>(
-      'http://192.168.1.154:1880/fundicion2/TT/horno1'
-    );
-  }
-
-  getData_F2_TT_horno2(): Observable<any[]> {
-    return this.http.get<any[]>(
-      'http://192.168.1.154:1880/fundicion2/TT/horno2'
-    );
   }
 }
