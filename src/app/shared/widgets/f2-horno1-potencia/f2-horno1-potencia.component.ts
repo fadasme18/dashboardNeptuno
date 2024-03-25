@@ -10,10 +10,9 @@ var potencia: any[] = [];
 @Component({
   selector: 'app-f2-horno1-potencia',
   templateUrl: './f2-horno1-potencia.component.html',
-  styleUrls: ['./f2-horno1-potencia.component.scss']
+  styleUrls: ['./f2-horno1-potencia.component.scss'],
 })
 export class F2Horno1PotenciaComponent implements OnInit, OnDestroy {
-
   data: any[] = [];
 
   startDate!: Date;
@@ -21,11 +20,9 @@ export class F2Horno1PotenciaComponent implements OnInit, OnDestroy {
 
   activateDatepicker: boolean = false;
 
-  constructor(private InfluxdbService: InfluxdbService) { }
-
+  constructor(private InfluxdbService: InfluxdbService) {}
 
   ngOnInit() {
-
     this.Realtimedata();
     this.updateRange();
     this.loadData();
@@ -50,12 +47,13 @@ export class F2Horno1PotenciaComponent implements OnInit, OnDestroy {
   }
 
   dataCatcherFromDatePicker(): void {
-    this.InfluxdbService.dateRangeSelected$.subscribe(({ startDate, endDate }) => {
-      this.ingresarFechas(startDate, endDate);
-      this.activateDatepicker = true;
-    })
+    this.InfluxdbService.dateRangeSelected$.subscribe(
+      ({ startDate, endDate }) => {
+        this.ingresarFechas(startDate, endDate);
+        this.activateDatepicker = true;
+      }
+    );
   }
-
 
   ingresarFechas(startDateValue: string, endDateValue: string): void {
     const startDate = new Date(startDateValue);
@@ -65,7 +63,6 @@ export class F2Horno1PotenciaComponent implements OnInit, OnDestroy {
       this.startDate = startDate;
       this.endDate = endDate;
       this.loadData();
-
     } else {
       console.error('Ingrese fechas validas');
     }
@@ -75,8 +72,7 @@ export class F2Horno1PotenciaComponent implements OnInit, OnDestroy {
     this.InfluxdbService.updateRange$.subscribe(() => {
       this.updateRange();
       this.activateDatepicker = false;
-    })
-
+    });
   }
 
   updateRange(): void {
@@ -86,7 +82,7 @@ export class F2Horno1PotenciaComponent implements OnInit, OnDestroy {
     this.endDate = now;
     this.loadData();
     // console.log('Real Time Selected');
-  };
+  }
 
   calculateTickInterval(startDate: Date, endDate: Date): number {
     //calcula la duración del rango de las fechas en milisegundos
@@ -104,9 +100,8 @@ export class F2Horno1PotenciaComponent implements OnInit, OnDestroy {
       //Para rangos de fechas mas largos: intervalo de 1 día
       desiredTickInterval = 24 * 60 * 60 * 1000; //1 día en milisegundos
     }
-    return desiredTickInterval
+    return desiredTickInterval;
   }
-
 
   //---------------------------------------------------------------------------------------------------------------------
 
@@ -115,162 +110,141 @@ export class F2Horno1PotenciaComponent implements OnInit, OnDestroy {
   powerData: any[] = []; // Arreglo para almacenar datos de potencia
   private dataSubscription: Subscription | undefined; // Inicializamos dataSubscription como undefined
 
-
-
   async loadData() {
     //---------------------------------------------------------------------------------------------------------------------
     if (this.startDate && this.endDate) {
-      this.data = await this.InfluxdbService.F2_horno1_potencia(this.startDate, this.endDate);
+      this.data = await this.InfluxdbService.F2_horno1_potencia(
+        this.startDate,
+        this.endDate
+      );
       // console.log("ACA ESTA MSJ!!")
       // console.log(this.data);
     }
     //---------------------------------------------------------------------------------------------------------------------
-      this.powerData = [];
+    this.powerData = [];
 
-      this.data.forEach(item => {
-        if (item._field === 'Power') {
-          this.powerData.push({
-            x: new Date(item._time).getTime(), // Convierte la fecha en una marca de tiempo
-            y: Number(parseFloat(item._value).toFixed(2)) // Convierte el valor en número
-          });
-        }
-      });
+    this.data.forEach((item) => {
+      if (item._field === 'Power') {
+        this.powerData.push({
+          x: new Date(item._time).getTime(), // Convierte la fecha en una marca de tiempo
+          y: Number(parseFloat(item._value).toFixed(2)), // Convierte el valor en número
+        });
+      }
+    });
 
-      //potencia = this.data;
-      potencia = this.powerData;
+    //potencia = this.data;
+    potencia = this.powerData;
 
-      // console.log("potencia")
-      // console.log(potencia);
+    // console.log("potencia")
+    // console.log(potencia);
 
-      this.graficar();
-      // console.log("fflag")
-    }
+    this.graficar();
+    // console.log("fflag")
+  }
 
   private chart: Highcharts.Chart | undefined;
-    graficar() {
-      const self = this;
-      this.chartOptions = {
+  graficar() {
+    const self = this;
+    this.chartOptions = {
+      title: {
+        text: 'Potencia Equipo 1 (Horno de inducción) Fundición 2',
+        align: 'center',
+      },
+
+      subtitle: {
+        text: 'Unidad de medida KiloWatts (kW)',
+        align: 'center',
+      },
+
+      yAxis: {
         title: {
-          text: 'Potencia Equipo 1 (Horno de inducción) Fundición 2',
-          align: 'center'
+          text: 'Potencia (kW)',
         },
+        max: 300,
+        min: 0,
+      },
 
-        subtitle: {
-          text: 'Unidad de medida KiloWatts (kW)',
-          align: 'center'
+      xAxis: {
+        title: {
+          text: 'Tiempo',
         },
-
-        yAxis: {
-          title: {
-            text: 'Potencia (kW)'
-          },
-          max: 300,
-          min: 0
-        },
-
-        xAxis: {
-          title: {
-            text: "Tiempo"
-          },
-          type: 'datetime',
-          labels: {
-            formatter: function () {
-              const timestamp = this.value;
-              const date = new Date(timestamp);
-              const options: Intl.DateTimeFormatOptions = {
-                timeZone: 'America/Santiago',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-              };
-              return date.toLocaleTimeString('es-CL', options);
-            }
-            //format: '{value:%H:%M:%S}'
-          },
-          // tickInterval: 900000,
-          // min: Date.now() - 4 * 60 * 60 * 1000,
-          // max: Date.now()
-          tickInterval: this.calculateTickInterval(this.startDate, this.endDate),
-          min: this.startDate ? this.startDate.getTime() : Date.now() - 20 * 60 * 60 * 1000, // Establecer el mínimo del eje x
-          max: this.endDate ? this.endDate.getTime() : Date.now(), // Establecer el máximo del eje x
-        },
-        series: [{
-          name: 'Potencia',
-          type: 'spline',
-          data: potencia
-        }],
-        tooltip: {
-          enabled: true,
-          headerFormat: '<b>Potencia: </b> {point.y} (kW) <br/>',
-          pointFormatter: function () {
-            const timestamp = this.x;
+        type: 'datetime',
+        labels: {
+          formatter: function () {
+            const timestamp = this.value;
             const date = new Date(timestamp);
             const options: Intl.DateTimeFormatOptions = {
-              year: 'numeric',
-              month: 'numeric',
-              day: 'numeric',
-              hour: 'numeric',
-              minute: 'numeric',
-              second: 'numeric'
+              day: '2-digit',
+              month: 'short',
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
             };
-            return date.toLocaleString('es-CL', options);
-          }
+            return date.toLocaleTimeString('es-CL', options);
+          },
         },
-        exporting: {
-          enabled: true,
-          buttons: {
-            customButton: {
-              text: 'Descargar CSV',
-              onclick: function () {
-                function formatDate(milliseconds: number) {
-                  const timestamp = new Date(milliseconds);
-                  const date = new Date(timestamp);
-                  const options: Intl.DateTimeFormatOptions = {
-                    year: 'numeric',
-                    month: 'numeric',
-                    day: 'numeric',
-                    hour: 'numeric',
-                    minute: 'numeric',
-                    second: 'numeric'
-                  };
-                  return date.toLocaleString('es-CL', options);
-                }
-
-                let csvData = 'Fecha,Valor\n';
-                self.chart?.series[0].data.forEach(point => {
-                  const fechaLegible = formatDate(point.x);
-                  csvData += `${fechaLegible},${point.y}\n`;
-                });
-
-                const blob = new Blob([csvData], { type: 'text/csv' });
-
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = 'datos.csv';
-                link.click();
-              }
-            }
-          }
+        dateTimeLabelFormats: {
+          // Configura el formato para diferentes unidades de tiempo
+          millisecond: '%b %e %H:%M:%S',
+          second: '%b %e %H:%M:%S',
+          minute: '%b %e %H:%M',
+          hour: '%b %e %H:%M',
+          day: '%b %e', // Añade el día al formato
+          week: '%b %e',
+          month: '%b %e',
+          year: '%b %e',
         },
-        chart: {
-          borderColor: 'gray',
-          borderWidth: 0.5,
-          borderRadius: 5
+        tickInterval: this.calculateTickInterval(this.startDate, this.endDate),
+        min: this.startDate
+          ? this.startDate.getTime()
+          : Date.now() - 20 * 60 * 60 * 1000, // Establecer el mínimo del eje x
+        max: this.endDate ? this.endDate.getTime() : Date.now(), // Establecer el máximo del eje x
+      },
+      series: [
+        {
+          name: 'Potencia',
+          type: 'spline',
+          data: potencia,
         },
-        responsive: {
-          rules: [{
+      ],
+      tooltip: {
+        enabled: true,
+        headerFormat: '<b>Potencia: </b> {point.y} (kW) <br/>',
+        pointFormatter: function () {
+          const timestamp = this.x;
+          const date = new Date(timestamp);
+          const options: Intl.DateTimeFormatOptions = {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+          };
+          return date.toLocaleString('es-CL', options);
+        },
+      },
+      chart: {
+        borderColor: 'gray',
+        borderWidth: 0.5,
+        borderRadius: 5,
+      },
+      responsive: {
+        rules: [
+          {
             condition: {
-              maxWidth: 500
+              maxWidth: 500,
             },
             chartOptions: {
               legend: {
                 layout: 'horizontal',
                 align: 'center',
-                verticalAlign: 'bottom'
-              }
-            }
-          }],
-        }
-      }
-    }
+                verticalAlign: 'bottom',
+              },
+            },
+          },
+        ],
+      },
+    };
   }
+}

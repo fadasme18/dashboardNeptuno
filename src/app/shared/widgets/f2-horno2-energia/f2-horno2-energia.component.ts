@@ -10,10 +10,9 @@ var energia: any[] = [];
 @Component({
   selector: 'app-f2-horno2-energia',
   templateUrl: './f2-horno2-energia.component.html',
-  styleUrls: ['./f2-horno2-energia.component.scss']
+  styleUrls: ['./f2-horno2-energia.component.scss'],
 })
 export class F2Horno2EnergiaComponent implements OnInit, OnDestroy {
-
   data: any[] = [];
 
   startDate!: Date;
@@ -21,11 +20,9 @@ export class F2Horno2EnergiaComponent implements OnInit, OnDestroy {
 
   activateDatepicker: boolean = false;
 
-  constructor(private InfluxdbService: InfluxdbService) { }
-
+  constructor(private InfluxdbService: InfluxdbService) {}
 
   ngOnInit() {
-
     this.Realtimedata();
     this.updateRange();
     this.loadData();
@@ -50,12 +47,13 @@ export class F2Horno2EnergiaComponent implements OnInit, OnDestroy {
   }
 
   dataCatcherFromDatePicker(): void {
-    this.InfluxdbService.dateRangeSelected$.subscribe(({ startDate, endDate }) => {
-      this.ingresarFechas(startDate, endDate);
-      this.activateDatepicker = true;
-    })
+    this.InfluxdbService.dateRangeSelected$.subscribe(
+      ({ startDate, endDate }) => {
+        this.ingresarFechas(startDate, endDate);
+        this.activateDatepicker = true;
+      }
+    );
   }
-
 
   ingresarFechas(startDateValue: string, endDateValue: string): void {
     const startDate = new Date(startDateValue);
@@ -65,7 +63,6 @@ export class F2Horno2EnergiaComponent implements OnInit, OnDestroy {
       this.startDate = startDate;
       this.endDate = endDate;
       this.loadData();
-
     } else {
       console.error('Ingrese fechas validas');
     }
@@ -75,8 +72,7 @@ export class F2Horno2EnergiaComponent implements OnInit, OnDestroy {
     this.InfluxdbService.updateRange$.subscribe(() => {
       this.updateRange();
       this.activateDatepicker = false;
-    })
-
+    });
   }
 
   updateRange(): void {
@@ -86,7 +82,7 @@ export class F2Horno2EnergiaComponent implements OnInit, OnDestroy {
     this.endDate = now;
     this.loadData();
     // console.log('Real Time Selected');
-  };
+  }
 
   calculateTickInterval(startDate: Date, endDate: Date): number {
     //calcula la duración del rango de las fechas en milisegundos
@@ -104,9 +100,8 @@ export class F2Horno2EnergiaComponent implements OnInit, OnDestroy {
       //Para rangos de fechas mas largos: intervalo de 1 día
       desiredTickInterval = 24 * 60 * 60 * 1000; //1 día en milisegundos
     }
-    return desiredTickInterval
+    return desiredTickInterval;
   }
-
 
   //---------------------------------------------------------------------------------------------------------------------
 
@@ -115,34 +110,35 @@ export class F2Horno2EnergiaComponent implements OnInit, OnDestroy {
   energyData: any[] = []; // Arreglo para almacenar datos de energio
   private dataSubscription: Subscription | undefined; // Inicializamos dataSubscription como undefined
 
-
-
   async loadData() {
     //---------------------------------------------------------------------------------------------------------------------
     if (this.startDate && this.endDate) {
-      this.data = await this.InfluxdbService.F2_horno2_energia(this.startDate, this.endDate);
+      this.data = await this.InfluxdbService.F2_horno2_energia(
+        this.startDate,
+        this.endDate
+      );
       // console.log("ACA ESTA MSJ!!")
       // console.log(this.data);
     }
     //---------------------------------------------------------------------------------------------------------------------
-      this.energyData = [];
+    this.energyData = [];
 
-      this.data.forEach(item => {
-        if (item._field === 'Energy') {
-          this.energyData.push({
-            x: new Date(item._time).getTime(), // Convierte la fecha en una marca de tiempo
-            y: Number(parseFloat(item._value).toFixed(2)) // Convierte el valor en número
-          });
-        }
-      });
+    this.data.forEach((item) => {
+      if (item._field === 'Energy') {
+        this.energyData.push({
+          x: new Date(item._time).getTime(), // Convierte la fecha en una marca de tiempo
+          y: Number(parseFloat(item._value).toFixed(2)), // Convierte el valor en número
+        });
+      }
+    });
 
-      energia = this.energyData;
+    energia = this.energyData;
 
-      // console.log("energia ")
-      // console.log(energia);
+    // console.log("energia ")
+    // console.log(energia);
 
-      this.graficar();
-      // console.log("fflag")
+    this.graficar();
+    // console.log("fflag")
   }
 
   private chart: Highcharts.Chart | undefined;
@@ -151,25 +147,25 @@ export class F2Horno2EnergiaComponent implements OnInit, OnDestroy {
     this.chartOptions = {
       title: {
         text: 'Energia Equipo 2 (Horno de inducción) Fundición 2',
-        align: 'center'
+        align: 'center',
       },
 
       subtitle: {
         text: 'Unidad de medida kiloWattsHora (kWh)',
-        align: 'center'
+        align: 'center',
       },
 
       yAxis: {
         title: {
-          text: 'Energia (kWh)'
+          text: 'Energia (kWh)',
         },
         max: 1000,
-        min: 0
+        min: 0,
       },
 
       xAxis: {
         title: {
-          text: "Tiempo"
+          text: 'Tiempo',
         },
         type: 'datetime',
         labels: {
@@ -177,28 +173,39 @@ export class F2Horno2EnergiaComponent implements OnInit, OnDestroy {
             const timestamp = this.value;
             const date = new Date(timestamp);
             const options: Intl.DateTimeFormatOptions = {
-              timeZone: 'America/Santiago',
+              day: '2-digit',
+              month: 'short',
               hour: '2-digit',
               minute: '2-digit',
-              second: '2-digit'
+              second: '2-digit',
             };
             return date.toLocaleTimeString('es-CL', options);
-          }
-          //format: '{value:%H:%M:%S}'
+          },
         },
-        // tickInterval: 900000,
-        // min: Date.now() - 4 * 60 * 60 * 1000,
-        // max: Date.now()
+        dateTimeLabelFormats: {
+          // Configura el formato para diferentes unidades de tiempo
+          millisecond: '%b %e %H:%M:%S',
+          second: '%b %e %H:%M:%S',
+          minute: '%b %e %H:%M',
+          hour: '%b %e %H:%M',
+          day: '%b %e', // Añade el día al formato
+          week: '%b %e',
+          month: '%b %e',
+          year: '%b %e',
+        },
         tickInterval: this.calculateTickInterval(this.startDate, this.endDate),
-        min: this.startDate ? this.startDate.getTime() : Date.now() - 20 * 60 * 60 * 1000, // Establecer el mínimo del eje x
+        min: this.startDate
+          ? this.startDate.getTime()
+          : Date.now() - 20 * 60 * 60 * 1000, // Establecer el mínimo del eje x
         max: this.endDate ? this.endDate.getTime() : Date.now(), // Establecer el máximo del eje x
-
       },
-      series: [{
-        name: 'Energia',
-        type: 'spline',
-        data: energia
-      }],
+      series: [
+        {
+          name: 'Energia',
+          type: 'spline',
+          data: energia,
+        },
+      ],
       tooltip: {
         enabled: true,
         headerFormat: '<b>Energía: </b> {point.y} (Wh) <br/>',
@@ -211,66 +218,32 @@ export class F2Horno2EnergiaComponent implements OnInit, OnDestroy {
             day: 'numeric',
             hour: 'numeric',
             minute: 'numeric',
-            second: 'numeric'
+            second: 'numeric',
           };
-          return date.toLocaleString('es-CL', options); 
-        }
-      },
-      exporting: {
-        enabled: false,
-        buttons: {
-          customButton: {
-            text: 'Descargar CSV',
-            onclick: function () {
-              function formatDate(milliseconds: number) {
-                const timestamp = new Date(milliseconds);
-                const date = new Date(timestamp);
-                const options: Intl.DateTimeFormatOptions = {
-                  year: 'numeric',
-                  month: 'numeric',
-                  day: 'numeric',
-                  hour: 'numeric',
-                  minute: 'numeric',
-                  second: 'numeric'
-                };
-                return date.toLocaleString('es-CL', options);
-              }
-
-              let csvData = 'Fecha,Valor\n';
-              self.chart?.series[0].data.forEach(point => {
-                const fechaLegible = formatDate(point.x);
-                csvData += `${fechaLegible},${point.y}\n`;
-              });
-
-              const blob = new Blob([csvData], { type: 'text/csv' });
-
-              const link = document.createElement('a');
-              link.href = URL.createObjectURL(blob);
-              link.download = 'datos.csv';
-              link.click();
-            }
-          }
-        }
+          return date.toLocaleString('es-CL', options);
+        },
       },
       chart: {
         borderColor: 'gray',
         borderWidth: 0.5,
-        borderRadius: 5
+        borderRadius: 5,
       },
       responsive: {
-        rules: [{
-          condition: {
-            maxWidth: 500
+        rules: [
+          {
+            condition: {
+              maxWidth: 500,
+            },
+            chartOptions: {
+              legend: {
+                layout: 'horizontal',
+                align: 'center',
+                verticalAlign: 'bottom',
+              },
+            },
           },
-          chartOptions: {
-            legend: {
-              layout: 'horizontal',
-              align: 'center',
-              verticalAlign: 'bottom'
-            }
-          }
-        }],
-      }
-    }
+        ],
+      },
+    };
   }
 }

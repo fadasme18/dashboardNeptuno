@@ -12,10 +12,9 @@ var voltage3: any[] = [];
 @Component({
   selector: 'app-f2-horno2-voltage',
   templateUrl: './f2-horno2-voltage.component.html',
-  styleUrls: ['./f2-horno2-voltage.component.scss']
+  styleUrls: ['./f2-horno2-voltage.component.scss'],
 })
 export class F2Horno2VoltageComponent implements OnInit, OnDestroy {
-
   data: any[] = [];
 
   startDate!: Date;
@@ -23,11 +22,9 @@ export class F2Horno2VoltageComponent implements OnInit, OnDestroy {
 
   activateDatepicker: boolean = false;
 
-  constructor(private InfluxdbService: InfluxdbService) { }
-
+  constructor(private InfluxdbService: InfluxdbService) {}
 
   ngOnInit() {
-
     this.Realtimedata();
     this.updateRange();
     this.loadData();
@@ -52,12 +49,13 @@ export class F2Horno2VoltageComponent implements OnInit, OnDestroy {
   }
 
   dataCatcherFromDatePicker(): void {
-    this.InfluxdbService.dateRangeSelected$.subscribe(({ startDate, endDate }) => {
-      this.ingresarFechas(startDate, endDate);
-      this.activateDatepicker = true;
-    })
+    this.InfluxdbService.dateRangeSelected$.subscribe(
+      ({ startDate, endDate }) => {
+        this.ingresarFechas(startDate, endDate);
+        this.activateDatepicker = true;
+      }
+    );
   }
-
 
   ingresarFechas(startDateValue: string, endDateValue: string): void {
     const startDate = new Date(startDateValue);
@@ -67,7 +65,6 @@ export class F2Horno2VoltageComponent implements OnInit, OnDestroy {
       this.startDate = startDate;
       this.endDate = endDate;
       this.loadData();
-
     } else {
       console.error('Ingrese fechas validas');
     }
@@ -77,8 +74,7 @@ export class F2Horno2VoltageComponent implements OnInit, OnDestroy {
     this.InfluxdbService.updateRange$.subscribe(() => {
       this.updateRange();
       this.activateDatepicker = false;
-    })
-
+    });
   }
 
   updateRange(): void {
@@ -88,7 +84,7 @@ export class F2Horno2VoltageComponent implements OnInit, OnDestroy {
     this.endDate = now;
     this.loadData();
     // console.log('Real Time Selected');
-  };
+  }
 
   calculateTickInterval(startDate: Date, endDate: Date): number {
     //calcula la duración del rango de las fechas en milisegundos
@@ -106,9 +102,8 @@ export class F2Horno2VoltageComponent implements OnInit, OnDestroy {
       //Para rangos de fechas mas largos: intervalo de 1 día
       desiredTickInterval = 24 * 60 * 60 * 1000; //1 día en milisegundos
     }
-    return desiredTickInterval
+    return desiredTickInterval;
   }
-
 
   //---------------------------------------------------------------------------------------------------------------------
 
@@ -119,56 +114,57 @@ export class F2Horno2VoltageComponent implements OnInit, OnDestroy {
   voltageData2: any[] = []; // Arreglo para almacenar datos de voltage
   private dataSubscription: Subscription | undefined; // Inicializamos dataSubscription como undefined
 
-
-
   async loadData() {
     //---------------------------------------------------------------------------------------------------------------------
     if (this.startDate && this.endDate) {
-      this.data = await this.InfluxdbService.F2_horno2_voltage(this.startDate, this.endDate);
+      this.data = await this.InfluxdbService.F2_horno2_voltage(
+        this.startDate,
+        this.endDate
+      );
       // console.log("ACA ESTA MSJ!!")
       // console.log(this.data);
     }
     //---------------------------------------------------------------------------------------------------------------------
- 
-      this.voltageData = [];
-      this.voltageData1 = [];
-      this.voltageData2 = [];
 
-      this.data.forEach(item => {
-        if (item._field === 'Voltage') {
-          this.voltageData.push({
-            x: new Date(item._time).getTime(), // Convierte la fecha en una marca de tiempo
-            y: Number(parseFloat(item._value).toFixed(2)) // Convierte el valor en número
-          });
-        } else if (item._field === 'VoltageB') {
-          this.voltageData1.push({
-            x: new Date(item._time).getTime(), // Convierte la fecha en una marca de tiempo
-            y: Number(parseFloat(item._value).toFixed(2)) // Convierte el valor en número
-          });
-        } else if (item._field === 'VoltageC') {
-          this.voltageData2.push({
-            x: new Date(item._time).getTime(), // Convierte la fecha en una marca de tiempo
-            y: Number(parseFloat(item._value).toFixed(2)) // Convierte el valor en número
-          });
-        }
-      });
+    this.voltageData = [];
+    this.voltageData1 = [];
+    this.voltageData2 = [];
 
-      voltage1 = this.voltageData;
-      voltage2 = this.voltageData1;
-      voltage3 = this.voltageData2;
-      
-      // console.log("---------------------");
-      // console.log(this.data);
-      // console.log("---------------------");
-      // console.log("voltage 1");
-      // console.log(voltage1);
-      // console.log("voltage 2");
-      // console.log(voltage2);
-      // console.log("voltage 3");
-      // console.log(voltage3);
+    this.data.forEach((item) => {
+      if (item._field === 'Voltage') {
+        this.voltageData.push({
+          x: new Date(item._time).getTime(), // Convierte la fecha en una marca de tiempo
+          y: Number(parseFloat(item._value).toFixed(2)), // Convierte el valor en número
+        });
+      } else if (item._field === 'VoltageB') {
+        this.voltageData1.push({
+          x: new Date(item._time).getTime(), // Convierte la fecha en una marca de tiempo
+          y: Number(parseFloat(item._value).toFixed(2)), // Convierte el valor en número
+        });
+      } else if (item._field === 'VoltageC') {
+        this.voltageData2.push({
+          x: new Date(item._time).getTime(), // Convierte la fecha en una marca de tiempo
+          y: Number(parseFloat(item._value).toFixed(2)), // Convierte el valor en número
+        });
+      }
+    });
 
-      this.graficar();
-      // console.log("fflag")
+    voltage1 = this.voltageData;
+    voltage2 = this.voltageData1;
+    voltage3 = this.voltageData2;
+
+    // console.log("---------------------");
+    // console.log(this.data);
+    // console.log("---------------------");
+    // console.log("voltage 1");
+    // console.log(voltage1);
+    // console.log("voltage 2");
+    // console.log(voltage2);
+    // console.log("voltage 3");
+    // console.log(voltage3);
+
+    this.graficar();
+    // console.log("fflag")
   }
 
   private chart: Highcharts.Chart | undefined;
@@ -178,25 +174,25 @@ export class F2Horno2VoltageComponent implements OnInit, OnDestroy {
     this.chartOptions = {
       title: {
         text: 'Voltaje Equipo 2 (Horno de inducción) Fundición 2',
-        align: 'center'
+        align: 'center',
       },
 
       subtitle: {
         text: 'Unidad de medida: Volts (V)',
-        align: 'center'
+        align: 'center',
       },
 
       yAxis: {
         title: {
-          text: 'Volt (V)'
+          text: 'Volt (V)',
         },
         max: 500,
-        min: 0
+        min: 0,
       },
 
       xAxis: {
         title: {
-          text: "Tiempo"
+          text: 'Tiempo',
         },
         type: 'datetime',
         labels: {
@@ -204,41 +200,49 @@ export class F2Horno2VoltageComponent implements OnInit, OnDestroy {
             const timestamp = this.value;
             const date = new Date(timestamp);
             const options: Intl.DateTimeFormatOptions = {
-              timeZone: 'America/Santiago',
+              day: '2-digit',
+              month: 'short',
               hour: '2-digit',
               minute: '2-digit',
-              second: '2-digit'
+              second: '2-digit',
             };
             return date.toLocaleTimeString('es-CL', options);
-          }
+          },
         },
-        // tickInterval: 900000,
-        // min: Date.now() - 4 * 60 * 60 * 1000,
-        // max: Date.now()
+        dateTimeLabelFormats: {
+          // Configura el formato para diferentes unidades de tiempo
+          millisecond: '%b %e %H:%M:%S',
+          second: '%b %e %H:%M:%S',
+          minute: '%b %e %H:%M',
+          hour: '%b %e %H:%M',
+          day: '%b %e', // Añade el día al formato
+          week: '%b %e',
+          month: '%b %e',
+          year: '%b %e',
+        },
         tickInterval: this.calculateTickInterval(this.startDate, this.endDate),
-        min: this.startDate ? this.startDate.getTime() : Date.now() - 20 * 60 * 60 * 1000, // Establecer el mínimo del eje x
+        min: this.startDate
+          ? this.startDate.getTime()
+          : Date.now() - 20 * 60 * 60 * 1000, // Establecer el mínimo del eje x
         max: this.endDate ? this.endDate.getTime() : Date.now(), // Establecer el máximo del eje x
-
       },
-      /*legend: {
-        layout: 'horizontal',
-        align: 'center',
-        verticalAlign: 'bottom'
-      },*/
-
-      series: [{
-        name: 'Voltage fase 1',
-        type: 'spline',
-        data: voltage1
-      },{
-        name: 'Voltage fase 2',
-        type: 'spline',
-        data: voltage2
-      },{
-        name: 'Voltage fase 3',
-        type: 'spline',
-        data: voltage3
-      }],
+      series: [
+        {
+          name: 'Voltage fase 1',
+          type: 'spline',
+          data: voltage1,
+        },
+        {
+          name: 'Voltage fase 2',
+          type: 'spline',
+          data: voltage2,
+        },
+        {
+          name: 'Voltage fase 3',
+          type: 'spline',
+          data: voltage3,
+        },
+      ],
       tooltip: {
         enabled: true,
         headerFormat: '<b>Voltage: </b> {point.y} (V) <br/>',
@@ -251,95 +255,30 @@ export class F2Horno2VoltageComponent implements OnInit, OnDestroy {
             day: 'numeric',
             hour: 'numeric',
             minute: 'numeric',
-            second: 'numeric'
+            second: 'numeric',
           };
           return date.toLocaleString('es-CL', options);
-        }
-      },
-      exporting: {
-        enabled: false,
-        buttons: {
-          customButton: {
-            text: 'Descargar CSV',
-            onclick: function () {
-              function formatDate(milliseconds: number) {
-                const timestamp = new Date(milliseconds);
-                const date = new Date(timestamp);
-                const options: Intl.DateTimeFormatOptions = {
-                  year: 'numeric',
-                  month: 'numeric',
-                  day: 'numeric',
-                  hour: 'numeric',
-                  minute: 'numeric',
-                  second: 'numeric'
-                };
-                return date.toLocaleString('es-CL', options);
-              }
-
-              let csvData = 'Fecha,Valor\n';
-              self.chart?.series[0].data.forEach(point => {
-                const fechaLegible = formatDate(point.x);
-                csvData += `${fechaLegible},${point.y}\n`;
-              });
-
-              const blob = new Blob([csvData], { type: 'text/csv' });
-
-              const link = document.createElement('a');
-              link.href = URL.createObjectURL(blob);
-              link.download = 'datos.csv';
-              link.click();
-            }
-          }
-        }
+        },
       },
       chart: {
         borderColor: 'gray',
         borderWidth: 0.5,
-        borderRadius: 5
+        borderRadius: 5,
       },
       responsive: {
-        rules: [{
-          condition: {
-            maxWidth: 500
+        rules: [
+          {
+            condition: {
+              maxWidth: 500,
+            },
+            chartOptions: {
+              legend: {
+                enabled: false,
+              },
+            },
           },
-          chartOptions: {
-            legend: {
-              enabled: false
-            }
-          }
-        }],
-      }
-    }
+        ],
+      },
+    };
   }
 }
-/*
-    this.chartOptions = {
-      rangeSelector: {
-        selected: 1
-      },
-      title: {
-        text:'Voltage Horno 1 Fundición 2'
-      },
-      series: [{
-        name: 'Voltage1',
-        data: voltage,
-        type: 'areaspline',
-        threshold: null,
-        tooltip: {
-          valueDecimals: 2
-        },
-        fillColor: 'linear-gradient(to bottom, rgba(0, 0, 255, 0.3), rgba(0, 0, 255, 0))'
-
-          /*linearGradient: {
-            x1: 0,
-            x2: 0,
-            y1: 0,
-            y2: 1
-          },
-          stops: [
-            [0,Highcharts.getOptions().colors[0]],
-            [1,Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-          ]
-        
-      }]
-    }*/
