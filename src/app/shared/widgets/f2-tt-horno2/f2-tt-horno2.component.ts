@@ -157,7 +157,9 @@ export class F2TtHorno2Component implements OnInit, OnDestroy {
         text: 'Unidad de medida: Grados Celcius (°C)',
         align: 'center',
       },
-
+      credits: {
+        enabled: false,
+      },
       yAxis: {
         title: {
           text: 'Grados (°C)',

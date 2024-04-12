@@ -151,7 +151,9 @@ export class F2Horno1EnergiaComponent implements OnInit, OnDestroy {
         text: 'Energia Equipo 1 (Horno de inducción) Fundición 2',
         align: 'center',
       },
-
+      credits: {
+        enabled: false,
+      },
       subtitle: {
         text: 'Unidad de medida kiloWattsHora (kWh)',
         align: 'center',

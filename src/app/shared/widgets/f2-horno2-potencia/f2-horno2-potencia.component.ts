@@ -28,7 +28,7 @@ export class F2Horno2PotenciaComponent implements OnInit, OnDestroy {
     this.loadData();
     this.graficar();
     this.dataCatcherFromDatePicker();
-    console.log(Date.now());
+    // console.log(Date.now());
     // console.log(Date(timestamp));
 
     this.dataSubscription = interval(30000).subscribe(() => {
@@ -157,7 +157,9 @@ export class F2Horno2PotenciaComponent implements OnInit, OnDestroy {
         text: 'Unidad de medida KiloWatts (kW)',
         align: 'center',
       },
-
+      credits: {
+        enabled: false,
+      },
       yAxis: {
         title: {
           text: 'Potencia (kW)',

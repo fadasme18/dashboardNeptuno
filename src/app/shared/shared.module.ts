@@ -14,7 +14,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { InfluxdbService } from '../influxdb.service';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { RouterModule, Routes }   from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { F2Horno2VoltageComponent } from './widgets/f2-horno2-voltage/f2-horno2-voltage.component';
@@ -38,12 +38,16 @@ import { F2TtHorno2Component } from './widgets/f2-tt-horno2/f2-tt-horno2.compone
 import { F2connectionstatusComponent } from './connection_status/connection-status/f2-connection-status.component';
 import { DescargaComponent } from './components/descarga/descarga.component';
 
-
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatDateFormats, MatNativeDateModule } from '@angular/material/core';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+  MatDateFormats,
+  MatNativeDateModule,
+} from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
-import { DateFnsAdapter, DateFnsModule } from '@angular/material-date-fns-adapter';
 import { es } from 'date-fns/locale';
 
 // export const DATE_FORMATS: MatDateFormats = {
@@ -99,7 +103,7 @@ import { es } from 'date-fns/locale';
     MatDatepickerModule,
     MatCardModule,
     MatNativeDateModule,
-    MatFormFieldModule
+    MatFormFieldModule,
   ],
   exports: [
     HeaderComponent,
@@ -124,13 +128,13 @@ import { es } from 'date-fns/locale';
     F2connectionstatusComponent,
     DescargaComponent,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
   ],
   providers: [
     InfluxdbService,
     // { provide: DateAdapter, useClass: DateFnsAdapter },
     // { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
     // { provide: MAT_DATE_LOCALE, useValue: es}
-  ]
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

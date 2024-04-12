@@ -1,16 +1,477 @@
-<br>
-
-<mat-divider></mat-divider>
-
-<br>
-
-<div>
-    <div>Table</div>
-    <div>Pie chart</div>
+<div class="row">
+  <div class="col">
+    <div class="card card-stats">
+      <div class="icon-big text-center icon-warning">
+        <i class="nc-icon nc-sound-wave text-warning"></i>
+      </div>
+      <div class="card-body" style="margin-bottom: 0px">
+        <div class="numbers" style="text-align: center; margin-bottom: 10px">
+          <p class="card-title" style="margin-top: 0px">FUNDICIÓN 2</p>
+          <p class="card-category">ESTADO DE EQUIPOS</p>
+          <p></p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<br>
+<div class="row">
+  <div style="padding: 0 10px; display: inline-flex; vertical-align: middle">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-sound-wave text-warning"></i>
+            </div>
+          </div>
+          <div class="col-7 col-8">
+            <div class="numbers">
+              <p class="card-category">HORNO INDUCCIÓN 1</p>
+              <p class="card-title">
+                <label [ngClass]="getIndicatorClass(horno1)">
+                  {{ horno1 ? "ONLINE" : "OFFLINE" }}
+                </label>
+              </p>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <hr />
+        <div class="stats">
+          <i class="nc-icon nc-refresh-69"></i> Actualizado hace
+          {{ getLastUpdateDuration() }}/10 seg
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 0 10px; display: inline-flex; vertical-align: middle">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-sound-wave text-warning"></i>
+            </div>
+          </div>
+          <div class="col-7 col-8">
+            <div class="numbers">
+              <p class="card-category">HORNO INDUCCIÓN 2</p>
+              <p class="card-title">
+                <label [ngClass]="getIndicatorClass(horno2)">
+                  {{ horno2 ? "ONLINE" : "OFFLINE" }}
+                </label>
+              </p>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <hr />
+        <div class="stats">
+          <i class="nc-icon nc-refresh-69"></i> Actualizado hace
+          {{ getLastUpdateDuration() }}/10 seg
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 0 10px; display: inline-flex; vertical-align: middle">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-sound-wave text-warning"></i>
+            </div>
+          </div>
+          <div class="col-7 col-8">
+            <div class="numbers">
+              <p class="card-category">SILO COHETE</p>
+              <p class="card-title">
+                <label [ngClass]="getIndicatorClass(silo_cohete)">
+                  {{ silo_cohete ? "ONLINE" : "OFFLINE" }}
+                </label>
+              </p>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <hr />
+        <div class="stats">
+          <i class="nc-icon nc-refresh-69"></i> Actualizado hace
+          {{ getLastUpdateDuration() }}/10 seg
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 0 10px; display: inline-flex; vertical-align: middle">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-sound-wave text-warning"></i>
+            </div>
+          </div>
+          <div class="col-7 col-8">
+            <div class="numbers">
+              <p class="card-category">SILO SUR (ARENA NUEVA)</p>
+              <p class="card-title">
+                <label [ngClass]="getIndicatorClass(silo_sur)">
+                  {{ silo_sur ? "ONLINE" : "OFFLINE" }}
+                </label>
+              </p>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <hr />
+        <div class="stats">
+          <i class="nc-icon nc-refresh-69"></i> Actualizado hace
+          {{ getLastUpdateDuration() }}/10 seg
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="padding: 0 10px; display: inline-flex; vertical-align: middle">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-sound-wave text-warning"></i>
+            </div>
+          </div>
+          <div class="col-7 col-8">
+            <div class="numbers">
+              <p class="card-category">SILO NORTE (ARENA REUTILIZADA)</p>
+              <p class="card-title">
+                <label [ngClass]="getIndicatorClass(silo_norte)">
+                  {{ silo_norte ? "ONLINE" : "OFFLINE" }}
+                </label>
+              </p>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <hr />
+        <div class="stats">
+          <i class="nc-icon nc-refresh-69"></i> Actualizado hace
+          {{ getLastUpdateDuration() }}/10 seg
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="padding: 0 10px; display: inline-flex; vertical-align: middle">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-sound-wave text-warning"></i>
+            </div>
+          </div>
+          <div class="col-7 col-8">
+            <div class="numbers">
+              <p class="card-category">HORNO 1 T.TERMICOS</p>
+              <p class="card-title">
+                <label [ngClass]="getIndicatorClass(hornosTT)">
+                  {{ hornosTT ? "ONLINE" : "OFFLINE" }}
+                </label>
+              </p>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <hr />
+        <div class="stats">
+          <i class="nc-icon nc-refresh-69"></i> Actualizado hace
+          {{ getLastUpdateDuration() }}/10 seg
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="padding: 0 10px; display: inline-flex; vertical-align: middle">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-sound-wave text-warning"></i>
+            </div>
+          </div>
+          <div class="col-7 col-8">
+            <div class="numbers">
+              <p class="card-category">HORNO 2 T.TERMICOS</p>
+              <p class="card-title">
+                <label [ngClass]="getIndicatorClass(hornosTT)">
+                  {{ hornosTT ? "ONLINE" : "OFFLINE" }}
+                </label>
+              </p>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <hr />
+        <div class="stats">
+          <i class="nc-icon nc-refresh-69"></i> Actualizado hace
+          {{ getLastUpdateDuration() }}/10 seg
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <mat-divider></mat-divider>
+<br />
+<!-- 
+<div class="row">
+  <div class="col">
+    <div class="card card-stats">
+      <div class="icon-big text-center icon-warning">
+        <i class="nc-icon nc-sound-wave text-warning"></i>
+      </div>
+      <div class="card-body" style="margin-bottom: 0px">
+        <div class="numbers" style="text-align: center; margin-bottom: 10px">
+          <p class="card-title" style="margin-top: 0px">FUNDICIÓN 1</p>
+          <p class="card-category">ESTADO DE EQUIPOS</p>
+          <p></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<br>
+<div class="row">
+  <div style="padding: 0 10px; display: inline-flex; vertical-align: middle">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-sound-wave text-warning"></i>
+            </div>
+          </div>
+          <div class="col-7 col-8">
+            <div class="numbers">
+              <p class="card-category">HORNO INDUCCIÓN 1</p>
+              <p class="card-title">
+                <label [ngClass]="getIndicatorClass(horno1)">
+                  {{ horno1 ? "ONLINE" : "OFFLINE" }}
+                </label>
+              </p>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <hr />
+        <div class="stats">
+          <i class="nc-icon nc-refresh-69"></i> Actualizado hace 20 seg
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 0 10px; display: inline-flex; vertical-align: middle">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-sound-wave text-warning"></i>
+            </div>
+          </div>
+          <div class="col-7 col-8">
+            <div class="numbers">
+              <p class="card-category">HORNO INDUCCIÓN 2</p>
+              <p class="card-title">
+                <label [ngClass]="getIndicatorClass(horno2)">
+                  {{ horno2 ? "ONLINE" : "OFFLINE" }}
+                </label>
+              </p>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <hr />
+        <div class="stats">
+          <i class="nc-icon nc-refresh-69"></i> Actualizado hace 20 seg
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 0 10px; display: inline-flex; vertical-align: middle">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-sound-wave text-warning"></i>
+            </div>
+          </div>
+          <div class="col-7 col-8">
+            <div class="numbers">
+              <p class="card-category">SILO COHETE</p>
+              <p class="card-title">
+                <label [ngClass]="getIndicatorClass(silo_cohete)">
+                  {{ silo_cohete ? "ONLINE" : "OFFLINE" }}
+                </label>
+              </p>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <hr />
+        <div class="stats">
+          <i class="nc-icon nc-refresh-69"></i> Actualizado hace 20 seg
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 0 10px; display: inline-flex; vertical-align: middle">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-sound-wave text-warning"></i>
+            </div>
+          </div>
+          <div class="col-7 col-8">
+            <div class="numbers">
+              <p class="card-category">SILO SUR (ARENA NUEVA)</p>
+              <p class="card-title">
+                <label [ngClass]="getIndicatorClass(silo_sur)">
+                  {{ silo_sur ? "ONLINE" : "OFFLINE" }}
+                </label>
+              </p>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <hr />
+        <div class="stats">
+          <i class="nc-icon nc-refresh-69"></i> Actualizado hace 20 seg
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="padding: 0 10px; display: inline-flex; vertical-align: middle">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-sound-wave text-warning"></i>
+            </div>
+          </div>
+          <div class="col-7 col-8">
+            <div class="numbers">
+              <p class="card-category">SILO NORTE (ARENA REUTILIZADA)</p>
+              <p class="card-title">
+                <label [ngClass]="getIndicatorClass(silo_norte)">
+                  {{ silo_norte ? "ONLINE" : "OFFLINE" }}
+                </label>
+              </p>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <hr />
+        <div class="stats">
+          <i class="nc-icon nc-refresh-69"></i> Actualizado hace 20 seg
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="padding: 0 10px; display: inline-flex; vertical-align: middle">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-sound-wave text-warning"></i>
+            </div>
+          </div>
+          <div class="col-7 col-8">
+            <div class="numbers">
+              <p class="card-category">HORNO 1 T.TERMICOS</p>
+              <p class="card-title">
+                <label [ngClass]="getIndicatorClass(hornosTT)">
+                  {{ hornosTT ? "ONLINE" : "OFFLINE" }}
+                </label>
+              </p>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <hr />
+        <div class="stats">
+          <i class="nc-icon nc-refresh-69"></i> Actualizado hace 20 seg
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="padding: 0 10px; display: inline-flex; vertical-align: middle">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-sound-wave text-warning"></i>
+            </div>
+          </div>
+          <div class="col-7 col-8">
+            <div class="numbers">
+              <p class="card-category">HORNO 2 T.TERMICOS</p>
+              <p class="card-title">
+                <label [ngClass]="getIndicatorClass(hornosTT)">
+                  {{ hornosTT ? "ONLINE" : "OFFLINE" }}
+                </label>
+              </p>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <hr />
+        <div class="stats">
+          <i class="nc-icon nc-refresh-69"></i> Actualizado hace 20 seg
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<mat-divider></mat-divider>
+<br /> -->

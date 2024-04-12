@@ -1,4 +1,118 @@
-<br />
+<div class="row">
+  <div style="padding: 0 10px; display: inline-flex">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="numbers">
+          <p class="card-category">HORNO INDUCCIÓN 1</p>
+          <p class="card-title">
+            <label [ngClass]="getIndicatorClass(horno1)">
+              {{ horno1 ? "ONLINE" : "OFFLINE" }}
+            </label>
+          </p>
+          <p></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 0 10px; display: inline-flex">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="numbers">
+          <p class="card-category">HORNO INDUCCIÓN 2</p>
+          <p class="card-title">
+            <label [ngClass]="getIndicatorClass(horno2)">
+              {{ horno2 ? "ONLINE" : "OFFLINE" }}
+            </label>
+          </p>
+          <p></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 0 10px; display: inline-flex">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="numbers">
+          <p class="card-category">SILO COHETE</p>
+          <p class="card-title">
+            <label [ngClass]="getIndicatorClass(silo_cohete)">
+              {{ silo_cohete ? "ONLINE" : "OFFLINE" }}
+            </label>
+          </p>
+          <p></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 0 10px; display: inline-flex">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="numbers">
+          <p class="card-category">SILO SUR (ARENA NUEVA)</p>
+          <p class="card-title">
+            <label [ngClass]="getIndicatorClass(silo_sur)">
+              {{ silo_sur ? "ONLINE" : "OFFLINE" }}
+            </label>
+          </p>
+          <p></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 0 10px; display: inline-flex">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="numbers">
+          <p class="card-category">SILO NORTE (ARENA REUTILIZADA)</p>
+          <p class="card-title">
+            <label [ngClass]="getIndicatorClass(silo_norte)">
+              {{ silo_norte ? "ONLINE" : "OFFLINE" }}
+            </label>
+          </p>
+          <p></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 0 10px; display: inline-flex">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="numbers">
+          <p class="card-category">HORNO 1 T.TERMICOS</p>
+          <p class="card-title">
+            <label [ngClass]="getIndicatorClass(hornosTT)">
+              {{ hornosTT ? "ONLINE" : "OFFLINE" }}
+            </label>
+          </p>
+          <p></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 0 10px; display: inline-flex">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="numbers">
+          <p class="card-category">HORNO 2 T.TERMICOS</p>
+          <p class="card-title">
+            <label [ngClass]="getIndicatorClass(hornosTT)">
+              {{ hornosTT ? "ONLINE" : "OFFLINE" }}
+            </label>
+          </p>
+          <p></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <br />
 <div
   fxLayout="row"
   fxLayoutAlign="start center"
@@ -50,4 +164,4 @@
 </div>
 <br />
 
-<mat-divider></mat-divider>
+<mat-divider></mat-divider> -->

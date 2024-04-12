@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { InfluxdbService } from 'src/app/influxdb.service';
 import { Subscription, interval } from 'rxjs';
+import { Chart } from 'chart.js';
 
-// import * as moment from 'moment';
-import * as moment from 'moment-timezone';
+import * as moment from 'moment';
 
 var corriente1: any[] = [];
 var corriente2: any[] = [];
@@ -131,20 +131,19 @@ export class F2Horno1CorrienteComponent implements OnInit, OnDestroy {
     this.currentData2 = [];
 
     this.data.forEach((item) => {
-      const timestamp = new Date(item._time).getTime();
       if (item._field === 'Current1') {
         this.currentData.push({
-          x: timestamp, // Convierte la fecha en una marca de tiempo
+          x: new Date(item._time).getTime(), // Convierte la fecha en una marca de tiempo
           y: Number(parseFloat(item._value).toFixed(2)), // Convierte el valor en número
         });
       } else if (item._field === 'Current2') {
         this.currentData1.push({
-          x: timestamp, // Convierte la fecha en una marca de tiempo
+          x: new Date(item._time).getTime(), // Convierte la fecha en una marca de tiempo
           y: Number(parseFloat(item._value).toFixed(2)), // Convierte el valor en número
         });
       } else if (item._field === 'Current3') {
         this.currentData2.push({
-          x: timestamp, // Convierte la fecha en una marca de tiempo
+          x: new Date(item._time).getTime(), // Convierte la fecha en una marca de tiempo
           y: Number(parseFloat(item._value).toFixed(2)), // Convierte el valor en número
         });
       }
@@ -154,8 +153,8 @@ export class F2Horno1CorrienteComponent implements OnInit, OnDestroy {
     corriente2 = this.currentData1;
     corriente3 = this.currentData2;
 
-    console.log('Current1');
-    console.log(corriente1);
+    // console.log("Current1")
+    // console.log(corriente1);
     // console.log("Current2")
     // console.log(corriente2);
     // console.log("Current2")
@@ -170,7 +169,9 @@ export class F2Horno1CorrienteComponent implements OnInit, OnDestroy {
         text: 'Corriente Equipo 1 (Horno de inducción) Fundición 2',
         align: 'center',
       },
-
+      credits: {
+        enabled: false,
+      },
       subtitle: {
         text: 'Unidad de medida Amperes (A)',
         align: 'center',
@@ -194,26 +195,18 @@ export class F2Horno1CorrienteComponent implements OnInit, OnDestroy {
             const timestamp = this.value;
             const date = new Date(timestamp);
             const options: Intl.DateTimeFormatOptions = {
-              day: '2-digit',
-              month: 'short',
+              timeZone: 'America/Santiago',
               hour: '2-digit',
               minute: '2-digit',
               second: '2-digit',
             };
             return date.toLocaleTimeString('es-CL', options);
           },
+          //format: '{value:%H:%M:%S}'
         },
-        dateTimeLabelFormats: {
-          // Configura el formato para diferentes unidades de tiempo
-          millisecond: '%b %e %H:%M:%S',
-          second: '%b %e %H:%M:%S',
-          minute: '%b %e %H:%M',
-          hour: '%b %e %H:%M',
-          day: '%b %e', // Añade el día al formato
-          week: '%b %e',
-          month: '%b %e',
-          year: '%b %e',
-        },
+        // tickInterval: 900000,
+        // min: Date.now() - 4 * 60 * 60 * 1000,
+        // max: Date.now()
         tickInterval: this.calculateTickInterval(this.startDate, this.endDate),
         min: this.startDate
           ? this.startDate.getTime()

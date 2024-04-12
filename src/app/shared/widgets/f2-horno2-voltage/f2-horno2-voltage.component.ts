@@ -181,7 +181,9 @@ export class F2Horno2VoltageComponent implements OnInit, OnDestroy {
         text: 'Unidad de medida: Volts (V)',
         align: 'center',
       },
-
+      credits: {
+        enabled: false,
+      },
       yAxis: {
         title: {
           text: 'Volt (V)',

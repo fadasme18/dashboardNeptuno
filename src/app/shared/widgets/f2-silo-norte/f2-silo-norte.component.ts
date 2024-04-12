@@ -152,7 +152,9 @@ export class F2SiloNorteComponent implements OnInit, OnDestroy {
         text: 'Unidad de medida: Porcentaje de llenado (%)',
         align: 'center',
       },
-
+      credits: {
+        enabled: false,
+      },
       yAxis: {
         title: {
           text: 'Porcentaje de llenado (%)',

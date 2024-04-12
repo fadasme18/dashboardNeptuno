@@ -154,7 +154,9 @@ export class F2Horno2EnergiaComponent implements OnInit, OnDestroy {
         text: 'Unidad de medida kiloWattsHora (kWh)',
         align: 'center',
       },
-
+      credits: {
+        enabled: false,
+      },
       yAxis: {
         title: {
           text: 'Energia (kWh)',

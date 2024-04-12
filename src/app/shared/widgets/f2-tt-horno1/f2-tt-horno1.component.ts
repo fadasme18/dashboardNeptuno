@@ -134,8 +134,8 @@ export class F2TtHorno1Component implements OnInit, OnDestroy {
 
     tthorno1 = this.tthorno1Data;
 
-    console.log('TT horno 1');
-    console.log(tthorno1);
+    // console.log("TT horno 1")
+    // console.log(tthorno1);
 
     this.graficar();
     // console.log("fflag")
@@ -154,7 +154,9 @@ export class F2TtHorno1Component implements OnInit, OnDestroy {
         text: 'Unidad de medida: Grados Celcius (°C)',
         align: 'center',
       },
-
+      credits: {
+        enabled: false,
+      },
       yAxis: {
         title: {
           text: 'Grados (°C)',
@@ -189,9 +191,6 @@ export class F2TtHorno1Component implements OnInit, OnDestroy {
           minute: '%b %e %H:%M',
           hour: '%b %e %H:%M',
           day: '%b %e', // Añade el día al formato
-          week: '%b %e',
-          month: '%b %e',
-          year: '%b %e',
         },
         tickInterval: this.calculateTickInterval(this.startDate, this.endDate),
         //tickInterval: 1800000,

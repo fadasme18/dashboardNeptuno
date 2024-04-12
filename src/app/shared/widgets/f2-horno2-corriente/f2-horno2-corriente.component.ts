@@ -169,7 +169,9 @@ export class F2Horno2CorrienteComponent implements OnInit, OnDestroy {
         text: 'Unidad de medida Amperes (A)',
         align: 'center',
       },
-
+      credits: {
+        enabled: false,
+      },
       yAxis: {
         title: {
           text: 'Corriente (A)',
